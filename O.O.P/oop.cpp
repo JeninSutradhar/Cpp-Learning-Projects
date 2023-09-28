@@ -1,38 +1,50 @@
 #include <iostream>
+#include <string>
 
-using namespace std;
+class BankAccount {
+private:
+    std::string accountNumber;
+    double balance;
 
-class Employee
-{
-    public:
-    
-    string name;
-    string company;
-    int age;
-    
-    void IntroduceYourself()
-    {
-        cout << "NAME - " << name << endl 
-        << "COMPANY - " << company << endl 
-        << "AGE - " << age << endl; 
+public:
+    BankAccount(const std::string& accNumber, double initialBalance)
+        : accountNumber(accNumber), balance(initialBalance) {}
+
+    void deposit(double amount) {
+        if (amount > 0) {
+            balance += amount;
+            std::cout << "Deposited $" << amount << " into account " << accountNumber << std::endl;
+        } else {
+            std::cout << "Invalid deposit amount." << std::endl;
+        }
     }
-    Employee( string name, string company, int age ) 
-    {
-        this->name = name;
-        this->company = company;
-        this->age = age;
+
+    void withdraw(double amount) {
+        if (amount > 0 && balance >= amount) {
+            balance -= amount;
+            std::cout << "Withdrawn $" << amount << " from account " << accountNumber << std::endl;
+        } else {
+            std::cout << "Invalid withdrawal amount or insufficient balance." << std::endl;
+        }
+    }
+
+    double getBalance() const {
+        return balance;
     }
 };
 
-int main()
-{
-    // declaring Employee
-    Employee employee1 = Employee("rakes", "RSb", 25);
-    employee1.IntroduceYourself();
-    
-    //second Employee 
-    Employee employee2 = Employee("pappu", "Ballebaaj", 31);
-    employee2.IntroduceYourself();
-    
+int main() {
+    BankAccount savingsAccount("SAV12345", 1000.0);
+    BankAccount checkingAccount("CHK67890", 500.0);
+
+    std::cout << "Savings Account Balance: $" << savingsAccount.getBalance() << std::endl;
+    std::cout << "Checking Account Balance: $" << checkingAccount.getBalance() << std::endl;
+
+    savingsAccount.deposit(500.0);
+    checkingAccount.withdraw(200.0);
+
+    std::cout << "Updated Savings Account Balance: $" << savingsAccount.getBalance() << std::endl;
+    std::cout << "Updated Checking Account Balance: $" << checkingAccount.getBalance() << std::endl;
+
     return 0;
 }
